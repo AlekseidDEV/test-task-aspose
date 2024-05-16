@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper_filter">
-   <div class="block_filter">
-     <span>Status</span>
-     <select v-model="filterObj.status">
-       <option disabled value="">default</option>
-       <option value="alive">alive</option>
-       <option value="dead">dead</option>
-       <option value="unknown">unknown</option>
-     </select>
-   </div>
+    <div class="block_filter">
+      <span>Status</span>
+      <select v-model="filterObj.status">
+        <option disabled value="">default</option>
+        <option value="alive">alive</option>
+        <option value="dead">dead</option>
+        <option value="unknown">unknown</option>
+      </select>
+    </div>
 
     <div class="block_filter">
       <span>Name</span>
@@ -23,9 +23,9 @@
     <BtnPagination/>
   </div>
   <div v-else>
-      <BtnPaginationFilter
-          :obj="filterObj"
-      />
+    <BtnPaginationFilter
+        :obj="filterObj"
+    />
   </div>
 </template>
 
@@ -36,30 +36,30 @@ import BtnPagination from "@/components/BtnPagination.vue";
 import BtnPaginationFilter from '@/components/BtnPaginationFilter.vue'
 
 const store = useStore()
-    let filterObj = reactive({
-      name : '',
-      status: ''
-    })
+let filterObj = reactive({
+  name: '',
+  status: ''
+})
 
-    const getStatus = computed(() => {
-      return store.getters['getFilterStatus']
-    })
+const getStatus = computed(() => {
+  return store.getters['getFilterStatus']
+})
 
-    const filterHeroes = () => {
-      if(!filterObj.name && !filterObj.status){
-        return
-      } else {
-        store.dispatch('setStatus', true)
-        store.dispatch('setHeroesFilter', `name=${filterObj.name.toLowerCase()}&status=${filterObj.status}`)
-      }
-    }
+const filterHeroes = () => {
+  if (!filterObj.name && !filterObj.status) {
+    return
+  } else {
+    store.dispatch('setStatus', true)
+    store.dispatch('setHeroesFilter', `name=${filterObj.name.toLowerCase()}&status=${filterObj.status}`)
+  }
+}
 
-    const resetFilter = () => {
-      store.dispatch('setStatus', false)
-      store.dispatch('setHeroes', '/?page=1')
-      filterObj.name = ''
-      filterObj.status = ''
-    }
+const resetFilter = () => {
+  store.dispatch('setStatus', false)
+  store.dispatch('setHeroes', '/?page=1')
+  filterObj.name = ''
+  filterObj.status = ''
+}
 </script>
 
 <style scoped>

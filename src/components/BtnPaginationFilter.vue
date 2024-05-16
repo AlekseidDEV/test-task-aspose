@@ -4,7 +4,7 @@
         @click="indexPage <= 1 ? indexPage = maxCountPage : indexPage--"
         id="prev">prev
     </button>
-    <p>{{indexPage}} of {{maxCountPage}}</p>
+    <p>{{ indexPage }} of {{ maxCountPage }}</p>
     <button
         @click="indexPage >= maxCountPage ? indexPage = 1 : indexPage++"
         id="next">next
