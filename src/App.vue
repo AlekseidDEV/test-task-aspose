@@ -38,7 +38,7 @@ const store = useStore()
 const getHeroes = computed(() => store.getters['getHeroes'])
 
 const setHeroes = () => {
-  store.dispatch('setHeroes', '/?page=1')
+  store.dispatch('setHeroes', '?page=1')
 }
 
 onMounted(() => {{
