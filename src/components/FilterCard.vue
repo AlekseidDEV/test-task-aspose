@@ -18,22 +18,11 @@
     <button @click="filterHeroes">применить</button>
     <button @click="resetFilter">сбросить фильтр</button>
   </div>
-
-  <div v-if="!getStatus">
-    <BtnPagination/>
-  </div>
-  <div v-else>
-    <BtnPaginationFilter
-        :obj="filterObj"
-    />
-  </div>
 </template>
 
 <script setup>
-import {computed, reactive} from "vue";
+import {reactive} from "vue";
 import {useStore} from "vuex";
-import BtnPagination from "@/components/BtnPagination.vue";
-import BtnPaginationFilter from '@/components/BtnPaginationFilter.vue'
 
 const store = useStore()
 let filterObj = reactive({
@@ -41,24 +30,22 @@ let filterObj = reactive({
   status: ''
 })
 
-const getStatus = computed(() => {
-  return store.getters['getFilterStatus']
-})
 
 const filterHeroes = () => {
   if (!filterObj.name && !filterObj.status) {
     return
   } else {
     store.dispatch('setStatus', true)
-    store.dispatch('setHeroesFilter', `name=${filterObj.name.toLowerCase()}&status=${filterObj.status}`)
+    store.dispatch('setHeroesFilter', `pages=1&name=${filterObj.name.toLowerCase()}&status=${filterObj.status}`)
   }
 }
 
 const resetFilter = () => {
   store.dispatch('setStatus', false)
-  store.dispatch('setHeroes', '/?page=1')
   filterObj.name = ''
   filterObj.status = ''
+
+  store.dispatch('setHeroes', "1,2,3,4,5,6")
 }
 </script>
 

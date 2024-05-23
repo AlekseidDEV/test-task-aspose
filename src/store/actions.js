@@ -1,7 +1,7 @@
 import {axiosClient} from "@/axiosClient";
 
-export const setHeroes = ({commit}, url) => {
-      axiosClient(`/character/${url}`).then(res => {
+export const setHeroes = ({commit}, str) => {
+      axiosClient(`/character/${str}`).then(res => {
           commit('setHeroes', res.data);
       })
 }
@@ -12,6 +12,10 @@ export const setHeroesFilter = ({commit},url) => {
     }).catch(() => {
         commit('setHeroesFilter', [])
     })
+}
+
+export const setFirstData = ({commit}, data) => {
+    commit('setFirstData', data)
 }
 
 export const setStatus = ({commit}, value) => {

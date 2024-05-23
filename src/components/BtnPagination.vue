@@ -1,13 +1,13 @@
 <template>
   <div class="btns">
     <button
-        @click="indexPage <= 1 ? indexPage = maxCountPage : indexPage--"
-        id="prev">prev
+        @click="prev">
+      prev
     </button>
-    <p>{{ indexPage }} of {{ maxCountPage }}</p>
+    <p>{{ count}}</p>
     <button
-        @click="indexPage >= maxCountPage ? indexPage = 1 : indexPage++"
-        id="next">next
+        @click="next">
+      next
     </button>
   </div>
 </template>
@@ -17,14 +17,64 @@ import {computed, ref, watch} from "vue";
 import {useStore} from "vuex";
 
 const store = useStore()
+const count = ref(1)
+const currentCount = ref(1);
+const lastCount = computed(() => currentCount.value + 6)
+const maxCountCard = computed(() => store.getters["getCount"])
+const statusFilter = computed(() => store.getters['getFilterStatus'])
+const pageFilter = computed(() => store.getters['getPageFilter'])
+let arrIdCards = []
 
-const maxCountPage = computed(() => store.getters['getCount'])
-
-let indexPage = ref(1)
-
-watch(indexPage, (newIndex) => {
-  store.dispatch('setHeroes', `/?page=${newIndex}`)
+watch(statusFilter, () => {
+  count.value = 1;
+  currentCount.value = 1
 })
+
+const getData = () => {
+  if(!statusFilter.value){
+    for (let i = currentCount.value; i < lastCount.value; i++){
+      arrIdCards.push(i)
+    }
+
+    store.dispatch('setHeroes', arrIdCards.join(','))
+  }else {
+    const select = document.querySelector('select')
+    const name = document.querySelector('input')
+
+    if(count.value > pageFilter.value){
+      count.value = 1
+    }
+
+    store.dispatch('setHeroesFilter', `page=${count.value}&name=${name.value.toLowerCase()}&status=${select.options[select.selectedIndex].textContent}`)
+  }
+}
+
+const next = () => {
+  count.value++
+  currentCount.value += 6
+  arrIdCards.length = 0
+
+  if(lastCount.value - 6 > maxCountCard.value){
+    count.value = 1
+    currentCount.value = 1
+    arrIdCards.length = 0
+  }
+
+  getData()
+}
+
+const prev = () => {
+  count.value--
+  currentCount.value -= 6
+  arrIdCards.length = 0
+
+  if(count.value < 1){
+    count.value = 1
+    currentCount.value = 1
+  }
+
+  getData()
+}
 
 </script>
 
@@ -35,6 +85,10 @@ watch(indexPage, (newIndex) => {
   margin-top: 20px;
   margin-bottom: 20px;
   justify-content: center;
+}
+
+p{
+  color: white;
 }
 
 .btns button {

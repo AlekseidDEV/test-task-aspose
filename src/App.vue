@@ -26,11 +26,14 @@
             :card="card"
         />
       </div>
-      <div class="block_card notResult" v-else>
-        <p class="no_result">
-          no results
-        </p>
+      <div>
+        <BtnPagination/>
       </div>
+<!--      <div class="block_card notResult" v-else>-->
+<!--        <p class="no_result">-->
+<!--          no results-->
+<!--        </p>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -40,17 +43,18 @@ import {useStore} from "vuex";
 import {computed, onMounted} from "vue";
 import CardHeroes from "@/components/CardHeroes.vue";
 import FilterCard from "@/components/FilterCard.vue";
+import {axiosClient} from "@/axiosClient";
+import BtnPagination from "@/components/BtnPagination.vue";
+
 
 const store = useStore()
 const getHeroes = computed(() => store.getters['getHeroes'])
 
-const setHeroes = () => {
-  store.dispatch('setHeroes', '?page=1')
-}
+onMounted( async () => {
+  for(let i = 1; i <= 6; i++){
+    const response = await axiosClient(`/character/${i}`)
 
-onMounted(() => {
-  {
-    setHeroes()
+    store.dispatch('setFirstData', response.data)
   }
 })
 

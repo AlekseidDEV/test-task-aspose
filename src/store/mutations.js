@@ -1,17 +1,21 @@
 const mutations = {
     setHeroes(state, data){
-        state.maxCountPage = data.info.pages
-        state.character = data.results
+        state.character.length = 0
+        data.forEach((item) => state.character.push(item))
     },
 
     setHeroesFilter(state, data){
+        state.character = []
         if(data.length !== 0){
-            state.maxCountPage = data.info.pages
+            state.pageFilter = data.info.pages
             state.character = data.results
-        }else {
-            state.maxCountPage = 1
-            state.character = []
+        } else {
+            state.character.length = 0
         }
+    },
+
+    setFirstData(state, data){
+        state.character.push(data)
     },
 
     setStatus(state, value){

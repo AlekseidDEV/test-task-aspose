@@ -5,11 +5,15 @@ const getters = {
     },
 
     getCount(state){
-        return state.maxCountPage
+        return state.maxCountCard
     },
 
     getFilterStatus(state){
         return state.filterActive
+    },
+
+    getPageFilter(state){
+       return  state.pageFilter
     }
 }
 

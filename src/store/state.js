@@ -1,7 +1,8 @@
 const state = {
-    maxCountPage: 0,
+    maxCountCard: 826,
     character: [],
-    filterActive: false
+    filterActive: false,
+    pageFilter: 0
 }
 
 export default state
