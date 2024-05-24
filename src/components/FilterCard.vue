@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import {reactive} from "vue";
+import {reactive, watch} from "vue";
 import {useStore} from "vuex";
 
 const store = useStore()
@@ -30,6 +30,9 @@ let filterObj = reactive({
   status: ''
 })
 
+watch(filterObj, () => {
+  store.dispatch('setStatus', false)
+})
 
 const filterHeroes = () => {
   if (!filterObj.name && !filterObj.status) {

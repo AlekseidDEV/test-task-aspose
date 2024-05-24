@@ -31,7 +31,7 @@
           no results
         </p>
       </div>
-      <div>
+      <div v-if="getHeroes.length !== 0">
         <BtnPagination/>
       </div>
     </div>
