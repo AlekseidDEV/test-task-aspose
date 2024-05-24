@@ -26,14 +26,14 @@
             :card="card"
         />
       </div>
+      <div class="block_card notResult" v-else>
+        <p class="no_result">
+          no results
+        </p>
+      </div>
       <div>
         <BtnPagination/>
       </div>
-<!--      <div class="block_card notResult" v-else>-->
-<!--        <p class="no_result">-->
-<!--          no results-->
-<!--        </p>-->
-<!--      </div>-->
     </div>
   </div>
 </template>
