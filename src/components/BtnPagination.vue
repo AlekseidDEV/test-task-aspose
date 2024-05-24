@@ -4,7 +4,7 @@
         @click="prev">
       prev
     </button>
-    <p>{{ count}}</p>
+    <p>{{ count }}</p>
     <button
         @click="next">
       next
@@ -30,22 +30,27 @@ watch(statusFilter, () => {
   currentCount.value = 1
 })
 
+const getFilterData = () => {
+  const select = document.querySelector('select')
+  const selectVal = select.options[select.selectedIndex].textContent
+  const name = document.querySelector('input')
+
+  if (count.value > pageFilter.value) {
+    count.value = 1
+  }
+
+  store.dispatch('setHeroesFilter', `page=${count.value}&name=${name.value.toLowerCase()}&status=${selectVal === "default" ? '' : selectVal}`)
+}
+
 const getData = () => {
-  if(!statusFilter.value){
-    for (let i = currentCount.value; i < lastCount.value; i++){
+  if (!statusFilter.value) {
+    for (let i = currentCount.value; i < lastCount.value; i++) {
       arrIdCards.push(i)
     }
 
     store.dispatch('setHeroes', arrIdCards.join(','))
-  }else {
-    const select = document.querySelector('select')
-    const name = document.querySelector('input')
-
-    if(count.value > pageFilter.value){
-      count.value = 1
-    }
-
-    store.dispatch('setHeroesFilter', `page=${count.value}&name=${name.value.toLowerCase()}&status=${select.options[select.selectedIndex].textContent}`)
+  } else {
+    getFilterData()
   }
 }
 
@@ -54,7 +59,7 @@ const next = () => {
   currentCount.value += 6
   arrIdCards.length = 0
 
-  if(lastCount.value - 6 > maxCountCard.value){
+  if (lastCount.value - 6 > maxCountCard.value) {
     count.value = 1
     currentCount.value = 1
     arrIdCards.length = 0
@@ -68,12 +73,12 @@ const prev = () => {
   currentCount.value -= 6
   arrIdCards.length = 0
 
-  if(count.value < 1){
+  if (count.value < 1) {
     count.value = 1
     currentCount.value = 1
+  }else {
+    getData()
   }
-
-  getData()
 }
 
 </script>
@@ -87,7 +92,7 @@ const prev = () => {
   justify-content: center;
 }
 
-p{
+p {
   color: white;
 }
 
